@@ -23,7 +23,11 @@ import {
   fetchUnsupportedSystemsWithExpectedSSG,
 } from './helpers';
 
+// PatternFly positions every table cell, and Chrome prints each positioned box as its
+// own layer. Body cells are unpositioned here; striped rows are positioned instead so
+// their background still paints as one box.
 const rowBase = {
+  position: 'static',
   fontSize: t_global_font_size_sm.value,
   paddingLeft: t_global_spacer_xs.value,
   paddingRight: t_global_spacer_sm.value,

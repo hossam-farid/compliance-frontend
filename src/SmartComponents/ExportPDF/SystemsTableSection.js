@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { t_global_background_color_secondary_default } from '@patternfly/react-tokens';
-import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
 import { Content } from '@patternfly/react-core';
 
 const SystemsTableSection = ({ sectionTitle, systemsData, styles }) => {
@@ -16,22 +15,43 @@ const SystemsTableSection = ({ sectionTitle, systemsData, styles }) => {
       const osMajorVersion = `${system.os_major_version}.${system.os_minor_version}`;
       const customStyle = {
         backgroundColor: t_global_background_color_secondary_default.value,
+        position: 'relative',
       };
       return (
-        <Tr key={`${system.id}`} style={isOddRow ? customStyle : {}}>
-          <Td style={styles.row} key={system.display_name} noPadding={true}>
+        <tr
+          className="pf-v6-c-table__tr"
+          key={`${system.id}`}
+          style={isOddRow ? customStyle : {}}
+        >
+          <td
+            className="pf-v6-c-table__td pf-m-no-padding"
+            style={styles.row}
+            key={system.display_name}
+          >
             {system.display_name}
-          </Td>
-          <Td style={styles.row} key={osMajorVersion}>
+          </td>
+          <td
+            className="pf-v6-c-table__td"
+            style={styles.row}
+            key={osMajorVersion}
+          >
             RHEL {osMajorVersion}
-          </Td>
-          <Td style={styles.row} key={system.failed_rule_count}>
+          </td>
+          <td
+            className="pf-v6-c-table__td"
+            style={styles.row}
+            key={system.failed_rule_count}
+          >
             {system.failed_rule_count}
-          </Td>
-          <Td style={styles.row} key={system.score}>
+          </td>
+          <td
+            className="pf-v6-c-table__td"
+            style={styles.row}
+            key={system.score}
+          >
             {system.score}%
-          </Td>
-        </Tr>
+          </td>
+        </tr>
       );
     },
   };
@@ -50,25 +70,43 @@ const SystemsTableSection = ({ sectionTitle, systemsData, styles }) => {
         const osMajorVersion = `${system.os_major_version}.${system.os_minor_version}`;
         const customStyle = {
           backgroundColor: t_global_background_color_secondary_default.value,
+          position: 'relative',
         };
         return (
-          <Tr key={`${system.id}`} style={isOddRow ? customStyle : {}}>
-            <Td style={styles.row} key={system.display_name} noPadding={true}>
+          <tr
+            className="pf-v6-c-table__tr"
+            key={`${system.id}`}
+            style={isOddRow ? customStyle : {}}
+          >
+            <td
+              className="pf-v6-c-table__td pf-m-no-padding"
+              style={styles.row}
+              key={system.display_name}
+            >
               {system.display_name}
-            </Td>
-            <Td style={styles.row} key={osMajorVersion}>
+            </td>
+            <td
+              className="pf-v6-c-table__td"
+              style={styles.row}
+              key={osMajorVersion}
+            >
               RHEL {osMajorVersion}
-            </Td>
-            <Td style={styles.row} key={system.security_guide_version || 'N/A'}>
+            </td>
+            <td
+              className="pf-v6-c-table__td"
+              style={styles.row}
+              key={system.security_guide_version || 'N/A'}
+            >
               {system.security_guide_version || 'N/A'}
-            </Td>
-            <Td
+            </td>
+            <td
+              className="pf-v6-c-table__td"
               style={styles.row}
               key={system.expected_security_guide_version || 'N/A'}
             >
               {system.expected_security_guide_version || 'N/A'}
-            </Td>
-          </Tr>
+            </td>
+          </tr>
         );
       },
     },
@@ -78,16 +116,29 @@ const SystemsTableSection = ({ sectionTitle, systemsData, styles }) => {
         const osMajorVersion = `${system.os_major_version}.${system.os_minor_version}`;
         const customStyle = {
           backgroundColor: t_global_background_color_secondary_default.value,
+          position: 'relative',
         };
         return (
-          <Tr key={`${system.id}`} style={isOddRow ? customStyle : {}}>
-            <Td style={styles.row} key={system.display_name} noPadding={true}>
+          <tr
+            className="pf-v6-c-table__tr"
+            key={`${system.id}`}
+            style={isOddRow ? customStyle : {}}
+          >
+            <td
+              className="pf-v6-c-table__td pf-m-no-padding"
+              style={styles.row}
+              key={system.display_name}
+            >
               {system.display_name}
-            </Td>
-            <Td style={styles.row} key={osMajorVersion}>
+            </td>
+            <td
+              className="pf-v6-c-table__td"
+              style={styles.row}
+              key={osMajorVersion}
+            >
               RHEL {osMajorVersion}
-            </Td>
-          </Tr>
+            </td>
+          </tr>
         );
       },
     },
@@ -103,21 +154,34 @@ const SystemsTableSection = ({ sectionTitle, systemsData, styles }) => {
     return rowBuilder(system, isOddRow);
   });
 
+  // Plain elements with PatternFly's class names: a PDF is never interactive,
+  // so it keeps the styling without the hooks PatternFly runs for every cell.
   return (
     <React.Fragment>
       <Content style={styles.sectionHeader}>{sectionTitle}</Content>
-      <Table borders={false} style={{ width: '100%' }}>
-        <Thead>
-          <Tr>
+      <table
+        role="grid"
+        className="pf-v6-c-table pf-m-grid-md pf-m-no-border-rows"
+        style={{ width: '100%' }}
+      >
+        <thead className="pf-v6-c-table__thead">
+          <tr className="pf-v6-c-table__tr">
             {headers.map((colHeader, index) => (
-              <Th style={styles.noWrapHeader} key={`header-${index}`}>
+              <th
+                scope="col"
+                className="pf-v6-c-table__th"
+                style={styles.noWrapHeader}
+                key={`header-${index}`}
+              >
                 {colHeader.value}
-              </Th>
+              </th>
             ))}
-          </Tr>
-        </Thead>
-        <Tbody>{rows}</Tbody>
-      </Table>
+          </tr>
+        </thead>
+        <tbody role="rowgroup" className="pf-v6-c-table__tbody">
+          {rows}
+        </tbody>
+      </table>
     </React.Fragment>
   );
 };
